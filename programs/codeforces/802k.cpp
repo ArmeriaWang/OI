@@ -26,20 +26,30 @@ using namespace std;
  inline void init_graph() { es = 0; fill(pre, 0); }
  #define reg(i, x) for (int i = pre[x]; i; i = e[i].pre)
 
- inline int max(int x, int y) { return x >= y ? x : y; }
- inline int dfs(int x, int dad) {
- 	int ret = 0;
+ 
+ inline Pii dfs(int x, int dad) {
+ 	Pii ret;
  	reg(i, x) {
  		int y = e[i].to;
  		if (y == dad) continue;
- 		ret = max(ret, dfs(y, x) + e[i].w);
+ 		fson.pb(dfs(y, x));
  	}
- 	return ret;
+
+ 	sort(fson.begin(), fson.end(), cmp1);
+ 	int upper = min(k - 1, fson.size());
+ 	rep(i, 0, upper - 1) ret.first += fson[i].first;
+ 	ret.first += k;
+
+ 	sort(fson.begin(), fson.end(), cmp2);
+ 	upper = min(k, fson.size());
+ 	rep(i, 0, upper - 1) ret.second += fson
  }
 
 int main()
 {
-	scanf("%d", &n);
+	// freopen("802k.in", "r", stdin);
+
+	scanf("%d%d", &n, &k);
 	init_graph();
 	rep(i, 1, n - 1) add_edge();
 
